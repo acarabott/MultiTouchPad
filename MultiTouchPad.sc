@@ -116,10 +116,13 @@ MultiTouchPad
 	}
 	
 	*gui
-	{
-		var view;
-		guiWin = Window("MultiTouchPad", Rect(100, 100, 525, 375)).onClose_({ guiOn = false; });
-		view = UserView(guiWin, guiWin.view.bounds).background_(Color.white).resize_(5);
+	{ |argGuiWin, argBounds|
+		var view, bounds;
+		guiWin = argGuiWin ?? { Window("MultiTouchPad", Rect(100, 100, 525, 375))};
+		guiWin.onClose_({ guiOn = false; });
+
+		bounds = argBounds ?? {guiWin.view.bounds};
+		view = UserView(guiWin, bounds).background_(Color.white).resize_(5);
 		view.drawFunc_
 			({
 				var fItem;
@@ -133,8 +136,8 @@ MultiTouchPad
 					(
 						Rect
 						(
-							guiWin.view.bounds.width * fItem[0], 
-							guiWin.view.bounds.height * fItem[1],
+							bounds.width * fItem[0],
+							bounds.height * fItem[1],
 							20 * fItem[2],
 							20 * fItem[2]
 						)
